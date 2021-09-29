@@ -1,0 +1,20 @@
+{% extends '_base.html' %}
+
+{% block title %}Student Information{% endblock title %}
+
+{% block content %}
+  {% if user == student.user %}
+    <p>Zdjęcie
+    ...tutaj zdjecie...</p>
+    <p>Dane studenta:</p>
+    <p>Imiona: {{ student.names }}</p>
+    <p>Nazwisko: {{ student.last_name }}</p>
+    <p>Klasa: {{ student.school_class }}</p>
+    <p>Numer kontakowy: {{ student.display_contact_number }}</p>
+  {% else %}
+    <p>You are not logged in</p>
+    <a href="{% url 'account_login' %}">Log In</a>
+    <a href="{% url 'account_signup' %}">Sign Up</a>
+  {% endif %}
+
+{% endblock content %}
