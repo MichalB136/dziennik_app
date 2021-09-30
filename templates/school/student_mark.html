@@ -1,0 +1,17 @@
+
+{% extends '_base.html' %}
+
+{% block title %}Mark's{% endblock title %}
+
+{% block content %}
+
+Oceny: 
+{% for subj in student.subjects.all %}
+<p>{{ subj }}: {% for mark in marks %}
+{% if mark.subject == subj and mark.student == student %}
+{{ mark.value }},
+{% endif %}{% endfor %}</p>
+{% endfor %}
+
+
+{% endblock content %}

@@ -1,7 +1,6 @@
-from django.http import response
 from django.test import SimpleTestCase
 from django.urls import reverse, resolve
-from .views import HomePageView
+from .views import HomePageView, StudentPageView
 
 
 
@@ -22,7 +21,7 @@ class HomepageTests(SimpleTestCase):
     
     def test_homepage_does_not_contain_incorrect_html(self):
         self.assertNotContains(
-            self.response, 'Hi there! I shhould not be on the page.')
+            self.response, 'Hi there! I should not be on the page.')
 
     def test_homepage_url_resolves_homepageview(self):
         view = resolve('/')
@@ -30,3 +29,28 @@ class HomepageTests(SimpleTestCase):
             view.func.__name__,
             HomePageView.as_view().__name__
         )
+
+class StudentpageTests(SimpleTestCase):
+
+    def setUp(self):
+      url = reverse('student_home')
+      self.response = self.client.get(url)
+
+    def test_studentpage_status_code(self):
+        self.assertEqual(self.response.status_code, 200)
+    
+    def test_studentpage_template(self):
+        self.assertTemplateUsed(self.response, 'student_home.html')
+    
+    def test_studentpage_contains_correct_html(self):
+        self.assertContains(self.response, 'Log In')
+    
+    def test_studentpage_does_not_containt_incorrect_html(self):
+        self.assertNotContains(
+            self.response, 'I am not on the page!')
+
+    def test_studentpage_url_resolves_studentpageview(self):
+        view = resolve('/StudentInfo')
+        self.assertEqual(
+            view.func.__name__,
+            StudentPageView.as_view().__name__)

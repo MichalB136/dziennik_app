@@ -4,18 +4,5 @@
 
 {% block content %}
   <h1>Homepage</h1>
-  {% if user.is_authenticated %}
-    Hi {{ user.email }}
-    <p>Zdjęcie: </p>
-    <img class="h-50 rounded-circle" src="{{ user.student.profile_pic.url }}">
-    <p>Dane studenta:</p>
-    <p>Imiona: {{ user.student.names }}</p>
-    <p>Nazwisko: {{ user.student.last_name }}</p>
-    <p>Klasa: {{ user.student.school_class }}</p>
-    <p>Numer kontakowy: {{ user.student.display_contact_number }}</p>
-  {% else %}
-    <p>You are not logged in</p>
-    <a href="{% url 'account_login' %}">Log In</a>
-    <a href="{% url 'account_signup' %}">Sign Up</a>
-  {% endif %}
+  <a href= {% url 'student_home' %}>Continue as student!</a>
 {% endblock content %}

@@ -1,0 +1,20 @@
+{% extends '_base.html' %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+  {% if user.is_authenticated %}
+    <p>Zdjęcie: </p>
+    <img class="h-50 rounded-circle" src="{{ user.student.profile_pic.url }}">
+    <p>Dane studenta:</p>
+    <p>Imiona: {{ user.student.names }}</p>
+    <p>Nazwisko: {{ user.student.last_name }}</p>
+    <p>Klasa: {{ user.student.school_class }}</p>
+    <p>Numer kontakowy: {{ user.student.display_contact_number }}</p>
+    <a class="p-2 text-dark" href="{% url 'student_marks' user.student.pk %}">Oceny</a>
+  {% else %}
+    <p>You are not logged in</p>
+    <a href="{% url 'account_login' %}">Log In</a>
+    <a href="{% url 'account_signup' %}">Sign Up</a>
+  {% endif %}
+{% endblock content %}
