@@ -4,7 +4,12 @@
 
 {% block content %}
   {% if user.is_authenticated %}
-    tak
+    <p>Zdjęcia</p>
+    <img src="{{ user.teacher.profile_pic }}">
+    <p>Dane nauczyciela:</p>
+    <p>Imię: {{ user.teacher.first_name }}</p>
+    <p>Nazwisko: {{ user.teacher.last_name }}</p>
+    <p>Płeć: {{ user.teacher.sex }}</p>
   {% else %}
     <p>You are not logged in</p>
     <a href="{% url 'account_login' %}">Log In</a>

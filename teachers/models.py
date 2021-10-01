@@ -20,7 +20,7 @@ class Teacher(models.Model):
                         choices=SEX_CHOICES, 
                         default=None)
     profile_pic = models.ImageField(upload_to='profile_pic/', 
-                                    default='def_profile_pic.jpeg')
+                                    default='profile_pic/def_profile_pic.jpeg')
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name
