@@ -11,12 +11,14 @@ class Student(models.Model):
     user = models.OneToOneField(get_user_model(),
                                 on_delete=models.CASCADE)
     first_name = models.CharField(max_length=200)
-    last_name = models.CharField(max_length=200)    
+    last_name = models.CharField(max_length=200)  
+    M = 'Male'
+    F = "Female"
     SEX_CHOICES = [
-        ('M', 'Male'),
-        ('F', 'Female')
+        (M, 'Male'),
+        (F, 'Female')
     ]
-    sex = models.CharField(max_length=1, 
+    sex = models.CharField(max_length=6, 
                         choices=SEX_CHOICES, 
                         default=None)
     profile_pic = models.ImageField(upload_to='profile_pic/', 
