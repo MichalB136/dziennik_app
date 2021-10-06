@@ -1,56 +1,118 @@
-from django.test import SimpleTestCase
-from django.urls import reverse, resolve
-from .views import HomePageView, StudentPageView
+from django.contrib.auth import get_user_model
+from django.test import TestCase
+from django.urls import reverse
+
+from students.models import Student
 
 
 
-class HomepageTests(SimpleTestCase):
+class HomepageTests(TestCase):
 
-    def setUp(self):
-        url = reverse('home')
-        self.response = self.client.get(url)
+    @classmethod
+    def setUpTestData(cls):
+        cls.user_student = get_user_model().objects.create_user(
+            username='studenttest',
+            email='studenttest@email.com',
+            password='testpass123')
+        
+        cls.student = Student.objects.create(
+            user = cls.user_student,
+            first_name = 'Tester',
+            last_name = 'Studenta',
+            sex = 'M')
 
-    def test_homepage_status_code(self):
-        self.assertEqual(self.response.status_code, 200)
 
-    def test_homepage_template(self):
-        self.assertTemplateUsed(self.response, 'home.html')
-
-    def test_homepage_contains_correct_html(self):
-        self.assertContains(self.response, 'Homepage')
     
-    def test_homepage_does_not_contain_incorrect_html(self):
-        self.assertNotContains(
-            self.response, 'Hi there! I should not be on the page.')
+    def test_listings(self):
+        self.assertEqual(f'{self.user_student.username}', 'studenttest')
+        self.assertEqual(f'{self.user_student.email}', 'studenttest@email.com')
+        self.assertEqual(f'{self.student.user.username}', 'studenttest')
+        self.assertEqual(f'{self.student.first_name}', 'Tester')
+        self.assertEqual(f'{self.student.last_name}', 'Studenta')
+        self.assertEqual(f'{self.student.sex}', 'M')
 
-    def test_homepage_url_resolves_homepageview(self):
-        view = resolve('/')
-        self.assertEqual(
-            view.func.__name__,
-            HomePageView.as_view().__name__
-        )
+    def test_homepage_for_logged_in_user(self):
+        self.client.login(username='studenttest', 
+                                password='testpass123')
+        response = self.client.get(reverse('home'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Homepage')
+        self.assertTemplateUsed(response, 'home.html')
+        
 
-class StudentpageTests(SimpleTestCase):
+    def test_homepage_for_logged_out_user(self):
+        self.client.logout()
+        response = self.client.get(reverse('home'))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(
+            response, '%s?next=/' % (reverse('account_login')))
+        response = self.client.get(
+            '%s?next=/' % (reverse('account_login')))
+        self.assertContains(response, 'Log In')
 
-    def setUp(self):
-      url = reverse('student_home')
-      self.response = self.client.get(url)
+class StudentPageTests(TestCase):
 
-    def test_studentpage_status_code(self):
-        self.assertEqual(self.response.status_code, 200)
-    
-    def test_studentpage_template(self):
-        self.assertTemplateUsed(self.response, 'student_home.html')
-    
-    def test_studentpage_contains_correct_html(self):
-        self.assertContains(self.response, 'Log In')
-    
-    def test_studentpage_does_not_containt_incorrect_html(self):
-        self.assertNotContains(
-            self.response, 'I am not on the page!')
+    @classmethod
+    def setUpTestData(cls):
+        cls.user_student = get_user_model().objects.create_user(
+            username='studenttest',
+            email='studenttest@email.com',
+            password='test!234')
+        
+        cls.student = Student.objects.create(
+            user = cls.user_student,
+            first_name = 'Tester',
+            last_name = 'Studenta',
+            sex = 'M')
 
-    def test_studentpage_url_resolves_studentpageview(self):
-        view = resolve('/StudentInfo')
-        self.assertEqual(
-            view.func.__name__,
-            StudentPageView.as_view().__name__)
+    def test_student_info_page_for_logged_in_user(self):
+        self.client.login(username='studenttest',
+                          password='test!234')
+        response = self.client.get(reverse('student_home'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Dane studenta:')
+        self.assertTemplateUsed(response, 'student_home.html')
+
+    def test_student_info_page_for_logged_out_user(self):
+        self.client.logout()
+        response = self.client.get(reverse('student_home'))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(
+            response, '%s?next=/studentinfo/' % (reverse('account_login')))
+        response = self.client.get(
+            '%s?next=/studentinfo/' % (reverse('account_login')))
+        self.assertContains(response, 'Log In')
+
+
+class TeacherPageTests(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user_teacher = get_user_model().objects.create_user(
+            username='teachertest',
+            email='teachertest@email.com',
+            password='test!234')
+        
+        cls.teacher = Student.objects.create(
+            user = cls.user_teacher,
+            first_name = 'Tester',
+            last_name = 'Nauczyciel',
+            sex = 'M')
+
+    def test_student_info_page_for_logged_in_user(self):
+        self.client.login(username='teachertest',
+                          password='test!234')
+        response = self.client.get(reverse('teacher_home'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Dane nauczyciela:')
+        self.assertTemplateUsed(response, 'teacher_home.html')
+
+    def test_student_info_page_for_logged_out_user(self):
+        self.client.logout()
+        response = self.client.get(reverse('teacher_home'))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(
+            response, '%s?next=/teacherinfo/' % (reverse('account_login')))
+        response = self.client.get(
+            '%s?next=/teacherinfo/' % (reverse('account_login')))
+        self.assertContains(response, 'Log In')

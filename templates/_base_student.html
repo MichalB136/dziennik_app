@@ -19,7 +19,7 @@
       font-weight-normal">MB Log</a>
       <nav class="my-2 my-md-0 mr-md-2">
         {% if user.is_authenticated %}
-          {% comment %} <a class="p-2 text-dark" href="{% url 'student_mark' user.student.pk %}">Oceny</a> {% endcomment %}
+          <a class="p-2 text-dark" href="{% url 'student_mark' user.student.pk %}">Oceny</a>
           <a class="p-2 text-dark" href="#">Powiadomienia</a>
           <a class="p-2 text-dark" href="#">Wiadomości</a>
           <a class="p-2 text-dark" href="#">Ogłoszenia</a>

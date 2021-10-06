@@ -27,14 +27,5 @@ class StudentTests(TestCase):
         self.assertEqual(f'{self.student.first_name}', 'Tester')
         self.assertEqual(f'{self.student.last_name}', 'Testowy')
         self.assertEqual(f'{self.student.sex}', 'M')
-        
-    def test_student_info_page_for_logged_in_user(self):
-        self.client.login(email='teststudent@email.com', 
-                          password='testpass!234')
-        self.client.logout()
-        response = self.client.get(reverse('student_home'))
-        print(response)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'text')
-        self.assertTemplateUsed(response, 'student_home.html')
+
         

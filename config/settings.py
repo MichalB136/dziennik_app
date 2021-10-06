@@ -167,7 +167,7 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # django-allauth config 
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'home_redirect'
 ACCOUNT_LOGOUT_REDIRECT = 'home'
 SITE_ID = 1
 AUTHENTICATION_BACKENDS = [

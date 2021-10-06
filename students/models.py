@@ -1,6 +1,8 @@
 import uuid
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 from django.db import models
+
 
 
 
@@ -24,5 +26,13 @@ class Student(models.Model):
     profile_pic = models.ImageField(upload_to='profile_pic/', 
                                     default='profile_pic/def_profile_pic.jpeg')
 
+    class Meta:
+        permissions = [
+            ('is_student', 'Can view student home page')
+        ]
+
     def __str__(self):
         return self.first_name + ' ' + self.last_name
+
+
+student_group, created = Group.objects.get_or_create(name='Student') 
