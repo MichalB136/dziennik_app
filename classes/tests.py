@@ -36,10 +36,11 @@ class TestSchoolClass(TestCase):
             supervising_teacher = cls.teacher,
             first_year = datetime.datetime(2020,9,1),
             name = 'A')
-        
         cls.school_class.students.add(cls.student)
+
         cls.subject = Subject.objects.create(
             name = 'Matematyka')
+            
         cls.mark = Mark.objects.create(
             student = cls.student,
             teacher = cls.teacher,

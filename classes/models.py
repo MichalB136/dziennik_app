@@ -15,7 +15,10 @@ class Subject(models.Model):
 class SchoolClass(models.Model):
     students = models.ManyToManyField(Student)
     supervising_teacher = models.ForeignKey(Teacher, 
-                                    on_delete=models.CASCADE, default=1)
+                                    on_delete=models.CASCADE, 
+                                    default=1, 
+                                    related_name='supervising_teacher')
+    teachers = models.ManyToManyField(Teacher, related_name='teachers')
     first_year = models.DateField()
     name = models.CharField(max_length=1)
 

@@ -1,10 +1,10 @@
-{% extends '_base.html' %}
+{% extends '_base_teacher.html' %}
 
 {% block title %}Home{% endblock title %}
 
 {% block content %}
   {% if user.is_authenticated %}
-    <p>Zdjęcia</p>
+    <p>Zdjęcie</p>
     <img src="{{ user.teacher.profile_pic }}">
     <p>Dane nauczyciela:</p>
     <p>Imię: {{ user.teacher.first_name }}</p>

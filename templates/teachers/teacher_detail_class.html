@@ -1,0 +1,21 @@
+
+{% extends '_base_teacher.html' %}
+
+{% block title %}Klasa: {{ class.name }}{% endblock title %}
+
+{% block content %}
+  <p>Uczniowe:</p>
+  {% for student in class.students.all %}
+    <p>{{ student }} </p>
+    {% for subj in subject.all %}
+      <p>{{ subj }}:</p>
+      {% for m in mark %}
+        {% if m.subject == subj and m.student == student %}
+          {{ m.value }}
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  {% endfor %}
+
+
+{% endblock content %}

@@ -1,0 +1,19 @@
+
+{% extends '_base_teacher.html' %}
+
+{% block title %}Klasy{% endblock title %}
+
+{% block content %}
+
+  <p>Klasy: </p>
+  {% for class in class_list.all %}
+    {% for teacher in class.teachers.all  %}
+      {% if teacher == user.teacher %}
+        <a href="{% url 'teacher_class_detail' class.pk %}">{{ class }}</a>
+        <p></p>
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+
+
+{% endblock content %}
