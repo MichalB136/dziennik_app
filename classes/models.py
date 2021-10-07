@@ -7,6 +7,7 @@ from teachers.models import Teacher
 
 class Subject(models.Model):
     name = models.CharField(max_length=200)
+    teachers = models.ManyToManyField(Teacher)
 
     def __str__(self):
         return self.name
@@ -36,9 +37,10 @@ class Mark(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, default=1)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, default=1)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
     value = models.IntegerField()
     weight = models.FloatField()
-    note = models.TextField()
+    note = models.TextField(blank=True)
 
     def __str__(self):
         return f'{self.value} from {self.subject}'

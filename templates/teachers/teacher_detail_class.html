@@ -1,21 +1,35 @@
-
 {% extends '_base_teacher.html' %}
+{% load crispy_forms_tags %}
+
 
 {% block title %}Klasa: {{ class.name }}{% endblock title %}
 
 {% block content %}
-  <p>Uczniowe:</p>
-  {% for student in class.students.all %}
-    <p>{{ student }} </p>
-    {% for subj in subject.all %}
-      <p>{{ subj }}:</p>
-      {% for m in mark %}
-        {% if m.subject == subj and m.student == student %}
-          {{ m.value }}
+  {% if user.is_authenticated %}
+    <p>Uczniowe:</p>
+    {% for student in class.students.all %}
+      <p>{{ student }} </p>
+      {% for subj in subject.all %}
+        {% if user.teacher in subj.teachers.all %}
+          <p>{{ subj }}:
+          {% for m in mark %}
+            {% if m.subject == subj and m.student == student %}
+              {{ m.value }}
+            {% endif %}
+          {% endfor %}
+          </p>
         {% endif %}
       {% endfor %}
     {% endfor %}
-  {% endfor %}
 
-
+    <form method="POST" >
+      {% csrf_token %}
+      <fieldset class="form-group list-group-item mt-2">
+        {{ form|crispy }}
+      </fieldset>
+      <div class="form-group">
+        <button class="mt-2 btn btn-outline-success btn-sm float-right" type="submit">Add Comment</button>
+      </div>
+    </form>
+  {% endif %}
 {% endblock content %}
