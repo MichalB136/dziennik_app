@@ -1,5 +1,5 @@
 # MB Log - grade book
-___
+
 ## Table of contents
 * [General info](#general-info)
 * [Technologies](#technologies)
@@ -8,7 +8,7 @@ ___
 * [Room for Improvement](#room-for-improvement)
 * [Acknowledgements](#acknowledgements)
 * [Contact](#contact)
----
+
 ## General Info
 
 Project of grade book for schools created with Django.
