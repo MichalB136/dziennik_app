@@ -18,6 +18,8 @@ Project of grade book for schools created with Django.
 - psycopg2-binary - version 2.9.1
 - django-allauth - version 0.43.0
 - django-crispy - version 1.11.1
+- whitenoise - version 5.3.0
+- gunicorn - version 20.1.0
 
 ## Project Status
 
