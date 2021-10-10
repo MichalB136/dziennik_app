@@ -30,12 +30,7 @@ class TeacherClassesListView(
     template_name = 'teachers/teacher_classes.html'
     login_url = 'account_login'
     permission_required = 'teachers.is_teacher'
-    
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['teacher'] = Teacher.objects.all()
-    #     return context
 
 class TeacherClassDetalView(
         LoginRequiredMixin,
